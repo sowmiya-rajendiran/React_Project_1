@@ -59,4 +59,4 @@
 - Uses useSearchParams() to read and update query parameters (search term, page, filter).
 
 ## Deployed Link
-- 
+- https://movie-review-p1.netlify.app/
