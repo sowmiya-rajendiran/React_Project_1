@@ -18,7 +18,7 @@ function Home(){
     }
 
     return(
-        <div className="md:py-[290px] py-[170px] lg:px-[100px] md:px-[50px] px-[25px] bg-[radial-gradient(circle,_#EEAECA_0%,_#94BBE9_100%)] text-black p-6 rounded-xl shadow-lg text-center">
+        <div className="md:py-[280px] py-[170px] lg:px-[100px] md:px-[50px] px-[25px] bg-[radial-gradient(circle,_#EEAECA_0%,_#94BBE9_100%)] text-black p-6 rounded-xl shadow-lg text-center">
                 <h1 className="lg:text-[30px] text-[20px] font-bold mb-[15px] ">🎬 Movie Review</h1>
                 <p className="text-[16px] text-white mb-[40px] font-semibold">Search Your Movies Here </p>
                 <div>
