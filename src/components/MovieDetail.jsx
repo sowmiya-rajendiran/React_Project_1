@@ -2,6 +2,7 @@ import { useLoaderData, useNavigate } from "react-router";
 import MovieRecommendations from "./MovieRecommendations";
 import StarRating from "./StarRating";
 import { useEffect, useState } from "react";
+import NoImage from "../assets/No_Image_Available.jpg";
 
 function MovieDetail(){
     let movie = useLoaderData();
@@ -54,7 +55,7 @@ function MovieDetail(){
                                 alt={movie.Title}
                                 onError={(e) => {
                                     e.target.onerror = null;
-                                    e.target.src = '/src/assets/No_Image_Available.jpg';
+                                    e.target.src = NoImage;
                                 }}
                             />
                         </div>

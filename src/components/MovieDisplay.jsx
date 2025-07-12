@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import NoImage from "../assets/No_Image_Available.jpg";
 
 function MovieDisplay({movie}){
     return(
@@ -10,7 +11,7 @@ function MovieDisplay({movie}){
                         alt={movie.Title}
                         onError={(e) => {
                             e.target.onerror = null;
-                            e.target.src = '/src/assets/No_Image_Available.jpg';
+                            e.target.src = NoImage;
                         }}
                          
                     />

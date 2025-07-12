@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Instance from "../instances/instance";
 import { Link } from "react-router";
+import NoImage from "../assets/No_Image_Available.jpg";
 
 function MovieRecommendations({genre}){
     
@@ -47,7 +48,7 @@ function MovieRecommendations({genre}){
                                         alt={movie.Title}
                                         onError={(e) => {
                                             e.target.onerror = null;
-                                            e.target.src = '/src/assets/No_Image_Available.jpg';
+                                            e.target.src = NoImage;
                                         }}
                                         
                                     />
