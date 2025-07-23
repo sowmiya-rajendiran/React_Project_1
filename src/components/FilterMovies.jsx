@@ -1,47 +1,48 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { useSearchParams } from "react-router";
 
 const FilterMovies = ({ movies, getDataCallBack }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedYear = searchParams.get("year") || "All";
 
-    const [selectedGenre, setSelectedGenre] = useState("All");
+  const allYears = useMemo(() => {
+    const years = new Set();
+    movies.forEach(m => m.Year && years.add(m.Year));
+    return ["All", ...Array.from(years).sort()];
+  }, [movies]);
 
-    // Filter Movies Based On Genre
-    const allGenres = useMemo(() => {
-        const genreSet = new Set();
-        movies.forEach((movie) => {
-        if (movie.Genre) {
-            movie.Genre.split(",").forEach((g) => genreSet.add(g.trim()));
-        }
-        });
-        return ["All", ...Array.from(genreSet).sort()];
-    }, [movies]);
+  const filteredMovies = useMemo(() => {
+    return movies.filter((movie) => {
+      const matchYear = selectedYear === "All" || movie.Year === selectedYear;
+      return matchYear;
+    });
+  }, [movies, selectedYear]);
 
-  
-    const filteredMovies = useMemo(() => {
-        return selectedGenre === "All"
-        ? movies
-        : movies.filter((movie) =>
-            movie.Genre?.toLowerCase().includes(selectedGenre.toLowerCase())
-            );
-    }, [selectedGenre, movies]);
+  useEffect(() => {
+    getDataCallBack(filteredMovies);
+  }, [filteredMovies, getDataCallBack]);
 
-  
-    useEffect(() => {
-        getDataCallBack(filteredMovies);
-    }, [filteredMovies, getDataCallBack]);
+  const handleChange = (e) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("year", e.target.value);
+    newParams.set("page", 1); // Reset to page 1 when filter changes
+    setSearchParams(newParams);
+  };
 
-    return (
-        <select
-            value={selectedGenre}
-            onChange={(e) => setSelectedGenre(e.target.value)}
-            className="border border-gray-600 p-2 rounded w-full"
-        >
-            {allGenres.map((genre) => (
-            <option key={genre} value={genre}>
-                {genre}
-            </option>
-            ))}
-        </select>
-    );
+  return (
+    <div className="space-y-2">
+      <select
+        value={selectedYear}
+        onChange={handleChange}
+        className="border p-2 rounded w-full"
+      >
+        {allYears.map(year => (
+          <option key={year} value={year}>{year}</option>
+        ))}
+      </select>
+    </div>
+  );
 };
 
 export default FilterMovies;
+

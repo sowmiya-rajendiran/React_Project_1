@@ -1,35 +1,24 @@
+import Instance from "../instances/instance";
 
-import Instance from "../instances/instance"
+const MovieLoader = async ({ request }) => {
+  const urlParams = new URL(request.url).searchParams;
+  const search = urlParams.get("search") || "";
+  const page = parseInt(urlParams.get("page")) || 1;
 
-let MovieLoader = async({request}) => {
+  try {
+    const response = await Instance.get("/", {
+      params: { s: search, page },
+    });
 
-    let url = new URL(request.url).searchParams.get('search');
-    const page = parseInt(new URL(request.url).searchParams.get('page')) || 1;
-
-    try{
-        let responce = await Instance.get('/' , {params : {s:url ,page}});
-
-        const basicResults = responce.data.Search || [];
-            // For each movie, fetch full details
-            const fullMovies = await Promise.all(
-                basicResults.map((movie) =>
-                    Instance.get("/", {
-                    params: { i: movie.imdbID },
-                    }).then((res) => res.data)
-                )
-            );
-
-        return {
-            movies: fullMovies,
-            totalResults: parseInt(responce.data.totalResults) || 0,
-            page,
-            search : url
-        }   
-    }
-    catch(error){
-        return { movies: [] };
-    }
-    
-}
+    return {
+      movies: response.data.Search || [],
+      totalResults: parseInt(response.data.totalResults) || 0,
+      page,
+      search,
+    };
+  } catch (error) {
+    return { movies: [], totalResults: 0, page, search };
+  }
+};
 
 export default MovieLoader;
