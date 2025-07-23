@@ -5,7 +5,7 @@ import FilterMovies from "./FilterMovies";
 import { useState } from "react";
 
 function MovieList(){
-    let {movies , totalResults , page , search} = useLoaderData();
+    let {movies , totalResults , page , search , year} = useLoaderData();
     const [filteredMovies, setFilteredMovies] = useState([]);
     let navigate = useNavigate();
 
@@ -56,11 +56,8 @@ function MovieList(){
                     )}
 
             </div>
-            <Navigation totalResults={totalResults} page={page} search={search}/>
+            <Navigation totalResults={totalResults} page={page} search={search} year={year}/>
         </>
-        
-        
-     
     )
 }
 

@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router";
 
-function Navigation({totalResults ,page , search}){
+function Navigation({totalResults ,page , search , year}){
     let navigate = useNavigate();
     const totalPages = Math.ceil(totalResults / 10);
 
     const goToPage = (newPage) => {
-        navigate(`/movies?search=${search}&page=${newPage}`);
+        navigate(`/movies?search=${search}&page=${newPage}&year=${year}`);
     };
     
     return(

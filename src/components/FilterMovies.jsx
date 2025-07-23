@@ -23,11 +23,18 @@ const FilterMovies = ({ movies, getDataCallBack }) => {
   }, [filteredMovies, getDataCallBack]);
 
   const handleChange = (e) => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("year", e.target.value);
-    newParams.set("page", 1); // Reset to page 1 when filter changes
-    setSearchParams(newParams);
-  };
+  const value = e.target.value;
+  const newParams = new URLSearchParams(searchParams);
+
+  if (value === "All") {
+    newParams.delete("year");
+  } else {
+    newParams.set("year", value);
+  }
+
+  newParams.set("page", 1);
+  setSearchParams(newParams);
+};
 
   return (
     <div className="space-y-2">
