@@ -5,11 +5,14 @@ const FilterMovies = ({ movies, getDataCallBack }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedYear = searchParams.get("year") || "All";
 
-  const allYears = useMemo(() => {
-    const years = new Set();
-    movies.forEach(m => m.Year && years.add(m.Year));
-    return ["All", ...Array.from(years).sort()];
-  }, [movies]);
+    const allYears = useMemo(() => {
+      const years = new Set();
+      movies.forEach(movie => {
+        const year = parseInt(movie.Year);
+        if (!isNaN(year)) years.add(year);
+      });
+      return ["All", ...Array.from(years).sort()];// Optional: sort years
+    }, [movies]);
 
   const filteredMovies = useMemo(() => {
     return movies.filter((movie) => {
@@ -23,18 +26,18 @@ const FilterMovies = ({ movies, getDataCallBack }) => {
   }, [filteredMovies, getDataCallBack]);
 
   const handleChange = (e) => {
-  const value = e.target.value;
-  const newParams = new URLSearchParams(searchParams);
+      const value = e.target.value;
+      const newParams = new URLSearchParams(searchParams);
 
-  if (value === "All") {
-    newParams.delete("year");
-  } else {
-    newParams.set("year", value);
-  }
+      if (value === "All") {
+        newParams.delete("year");
+      } else {
+        newParams.set("year", value);
+      }
 
-  newParams.set("page", 1);
-  setSearchParams(newParams);
-};
+      newParams.set("page", 1);
+      setSearchParams(newParams);
+  };
 
   return (
     <div className="space-y-2">
@@ -46,6 +49,8 @@ const FilterMovies = ({ movies, getDataCallBack }) => {
         {allYears.map(year => (
           <option key={year} value={year}>{year}</option>
         ))}
+
+        
       </select>
     </div>
   );
